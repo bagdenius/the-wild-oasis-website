@@ -53,3 +53,27 @@
     }
   }
 }
+
+/* For day picker */
+.rdp-root {
+  margin: 0 !important;
+  --rdp-accent-color: theme('colors.accent.500') !important;
+  --rdp-background-color: theme('colors.accent.600') !important;
+  --rdp-range_middle-background-color: theme('colors.accent.600') !important;
+  --rdp-day_button-height: 2rem !important;
+  --rdp-day_button-width: 2rem !important;
+  --rdp-day-height: 2rem !important;
+  --rdp-day-width: 2rem !important;
+}
+
+.rdp-months {
+  flex-wrap: nowrap !important;
+}
+
+.rdp-root {
+  padding-top: 2rem !important;
+}
+
+.rdp-month_caption {
+  justify-content: center !important;
+}
