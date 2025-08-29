@@ -1,6 +1,7 @@
 'use client';
 
 import { useFormStatus } from 'react-dom';
+
 import SpinnerMini from './SpinnerMini';
 
 export default function SubmitButton({ children }) {
