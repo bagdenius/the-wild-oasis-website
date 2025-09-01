@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 import { auth, signIn, signOut } from './auth';
-import { getBooking, getBookings } from './data-service';
+import { getBookings } from './data-service';
 import { supabase } from './supabase';
 
 export async function signInAction() {
@@ -80,4 +80,29 @@ export async function updateBooking(formData) {
     throw new Error('Booking could not be updated');
   }
   redirect('/account/reservations');
+}
+
+export async function createBooking(formData, bookingData) {
+  const session = await auth();
+  if (!session) throw new Error('You must be logged in to create bookings');
+
+  const newBooking = {
+    ...bookingData,
+    guestId: session.user.guestId,
+    numberOfGuests: Number(formData.get('numberOfGuests')),
+    extrasPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    status: 'unconfirmed',
+    hasBreakfast: false,
+    isPaid: false,
+    observations: formData.get('observations').slice(0, 1000),
+  };
+
+  const { error } = await supabase.from('bookings').insert([newBooking]);
+  if (error) {
+    console.error(error);
+    throw new Error('Booking could not be created');
+  }
+  // revalidatePath(`/cabins/${bookingData.cabinId}`);
+  redirect('/cabins/thankyou');
 }
